@@ -265,6 +265,17 @@ async function saveGroceryList(items, weekKey) {
   });
 }
 
+// Add a single grocery item without touching the rest of the list
+async function addGroceryItem(item) {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = database.transaction('grocery_items', 'readwrite');
+    tx.objectStore('grocery_items').put(item);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
 // Flip the checked flag on a single grocery item
 async function toggleGroceryItem(id, checked) {
   const database = await openDB();
