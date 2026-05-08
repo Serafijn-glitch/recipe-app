@@ -12,6 +12,7 @@ const CACHE_FILES = [
   './js/recipes.js',
   './js/scheduler.js',
   './js/grocery.js',
+  './js/app.js',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
