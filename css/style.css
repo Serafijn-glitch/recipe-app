@@ -1,0 +1,741 @@
+/* Recipe App — Deep Teal dark theme */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:           #0f1923;
+  --surface:      #162028;
+  --surface-alt:  #1c2b36;
+  --border:       #1e3545;
+  --border-focus: #00bcd4;
+  --accent:       #00bcd4;
+  --accent-dark:  #0097a7;
+  --accent-glow:  rgba(0, 188, 212, .18);
+  --text:         #e8edf0;
+  --text-muted:   #7a9aaa;
+  --danger:       #ef5350;
+  --danger-bg:    rgba(239, 83, 80, .12);
+  --radius:       10px;
+  --radius-sm:    6px;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+/* ── Header & nav ───────────────────────────────────────── */
+
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 16px 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header h1 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+nav {
+  display: flex;
+  gap: 2px;
+}
+
+.nav-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  font-size: .88rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  transition: color .15s, background .15s;
+}
+
+.nav-link:hover {
+  color: var(--text);
+  background: var(--surface-alt);
+}
+
+.nav-link.active {
+  color: var(--accent);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-bottom: 1px solid var(--bg);
+}
+
+/* ── Main content ───────────────────────────────────────── */
+
+main {
+  padding: 20px 16px 40px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.view { display: none; }
+.view.active { display: block; }
+.hidden { display: none !important; }
+
+/* ── View header ────────────────────────────────────────── */
+
+.view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 8px;
+}
+
+.view-header h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ── Buttons ────────────────────────────────────────────── */
+
+.btn-primary {
+  background: var(--accent);
+  color: #0f1923;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 18px;
+  font-size: .9rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: .03em;
+  transition: background .15s, box-shadow .15s;
+}
+
+.btn-primary:hover {
+  background: var(--accent-dark);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.btn-primary.btn-full {
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px;
+  font-size: 1rem;
+  border-radius: var(--radius);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1.5px solid var(--border-focus);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  font-size: .88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s, box-shadow .15s;
+}
+
+.btn-secondary:hover {
+  background: var(--accent-glow);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: .92rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color .15s;
+}
+
+.btn-text:hover { color: var(--accent-dark); }
+
+/* ── Form card ──────────────────────────────────────────── */
+
+#recipe-form {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  align-items: end;
+}
+
+/* ── Inputs ─────────────────────────────────────────────── */
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--surface-alt);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: .95rem;
+  font-family: inherit;
+  color: var(--text);
+  transition: border-color .15s, box-shadow .15s;
+  -webkit-appearance: none;
+}
+
+input::placeholder,
+textarea::placeholder { color: var(--text-muted); opacity: .6; }
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+textarea { resize: vertical; }
+
+/* Hide number input spinners — they look broken on dark backgrounds */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] { -moz-appearance: textfield; }
+
+/* Select arrow */
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237a9aaa' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+}
+
+/* ── Toggle checkboxes ──────────────────────────────────── */
+
+.form-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--surface-alt);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 12px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+
+.toggle-label:hover {
+  border-color: var(--border-focus);
+  background: #1a2f3c;
+}
+
+.toggle-label:has(input:checked) {
+  border-color: var(--border-focus);
+  background: #0e2530;
+  box-shadow: 0 0 0 1px var(--accent-glow);
+}
+
+.toggle-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.toggle-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.toggle-text strong {
+  font-size: .95rem;
+  color: var(--text);
+}
+
+.toggle-text small {
+  font-size: .82rem;
+  color: var(--text-muted);
+}
+
+/* ── Ingredients section ────────────────────────────────── */
+
+.ingredients-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ingredients-section h3 {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: .02em;
+}
+
+.ingredient-row {
+  display: grid;
+  /* Row 1: name spans full width. Row 2: amount | unit | category | remove */
+  grid-template-columns: 1fr 1fr 2fr auto;
+  grid-template-rows: auto auto;
+  gap: 6px;
+  align-items: center;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+}
+
+.ing-name     { grid-column: 1 / -1; }
+.ing-amount   { grid-column: 1; }
+.ing-unit     { grid-column: 2; }
+.ing-category { grid-column: 3; }
+.btn-remove-ingredient { grid-column: 4; grid-row: 1; align-self: center; }
+
+/* Override the card background on inputs inside ingredient rows */
+.ingredient-row input,
+.ingredient-row select {
+  background: var(--surface);
+  border-color: transparent;
+  padding: 8px 10px;
+  font-size: .88rem;
+}
+
+.ingredient-row input:focus,
+.ingredient-row select:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+.btn-remove-ingredient {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: var(--radius-sm);
+  transition: color .15s, background .15s;
+}
+
+.btn-remove-ingredient:hover {
+  color: var(--danger);
+  background: var(--danger-bg);
+}
+
+/* ── Empty state ────────────────────────────────────────── */
+
+.empty-state {
+  color: var(--text-muted);
+  font-size: .9rem;
+  padding: 32px 0 8px;
+  text-align: center;
+}
+
+/* ── Recipe cards ───────────────────────────────────────── */
+
+#recipe-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recipe-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 12px;
+  transition: border-color .15s;
+}
+
+.recipe-card:hover {
+  border-color: var(--border-focus);
+}
+
+.recipe-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.recipe-card-name {
+  font-size: .97rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recipe-card-meta {
+  font-size: .8rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.badge {
+  display: inline-block;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.badge-weekend {
+  background: rgba(0, 188, 212, .15);
+  color: var(--accent);
+  border: 1px solid rgba(0, 188, 212, .3);
+}
+
+.badge-leftovers {
+  background: rgba(255, 183, 77, .12);
+  color: #ffb74d;
+  border: 1px solid rgba(255, 183, 77, .25);
+}
+
+.btn-delete-recipe {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  transition: color .15s, background .15s;
+}
+
+.btn-delete-recipe:hover {
+  color: var(--danger);
+  background: var(--danger-bg);
+}
+
+/* ── Detail view ────────────────────────────────────────── */
+
+.detail-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.detail-description {
+  font-size: .9rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.detail-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  min-width: 70px;
+}
+
+.detail-stat-label {
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-muted);
+}
+
+.detail-stat-value {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.detail-badges {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.detail-section {
+  margin-bottom: 20px;
+}
+
+.detail-section-title {
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.detail-ingredient-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.detail-ingredient {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: .92rem;
+  color: var(--text);
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-ingredient:last-child {
+  border-bottom: none;
+}
+
+.detail-ing-amount {
+  font-weight: 700;
+  color: var(--accent);
+  min-width: 60px;
+  flex-shrink: 0;
+}
+
+.detail-instructions {
+  font-size: .92rem;
+  color: var(--text);
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+/* Danger button — used for verwijderen */
+.btn-danger {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1.5px solid var(--danger);
+  border-radius: var(--radius-sm);
+  padding: 10px 18px;
+  font-size: .9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s;
+}
+
+.btn-danger:hover {
+  background: rgba(239, 83, 80, .22);
+}
+
+.btn-danger.btn-full {
+  width: 100%;
+  border-radius: var(--radius);
+  padding: 14px;
+  font-size: 1rem;
+  margin-top: 8px;
+}
+
+.btn-sm {
+  padding: 7px 14px;
+  font-size: .85rem;
+}
+
+/* ── Week plan ──────────────────────────────────────────── */
+
+.week-label {
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+#week-plan-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.week-day-card {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  border-left: 4px solid var(--border);
+  transition: border-color .15s;
+}
+
+.week-day-cook     { border-left-color: var(--accent); }
+.week-day-leftover { border-left-color: #ffb74d; }
+.week-day-skip     { border-left-color: var(--border); opacity: .55; }
+
+.week-day-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.week-day-name {
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.week-day-date {
+  font-size: .74rem;
+  color: var(--text-muted);
+}
+
+.week-day-recipe {
+  font-size: .92rem;
+  color: var(--text);
+}
+
+.week-day-leftover .week-day-recipe {
+  color: #ffb74d;
+  font-style: italic;
+}
+
+.week-day-skip .week-day-recipe {
+  color: var(--text-muted);
+}
+
+/* ── Grocery list ───────────────────────────────────────── */
+
+.grocery-progress {
+  font-size: .85rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.grocery-category {
+  margin-bottom: 22px;
+}
+
+.grocery-category-title {
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.grocery-item {
+  display: grid;
+  grid-template-columns: 28px 72px 1fr;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 6px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background .12s, opacity .15s;
+}
+
+.grocery-item:last-child { border-bottom: none; }
+
+.grocery-item:hover { background: var(--surface-alt); }
+
+.grocery-item-checked {
+  opacity: .4;
+}
+
+.grocery-item-checked .grocery-item-name,
+.grocery-item-checked .grocery-item-amount {
+  text-decoration: line-through;
+}
+
+.grocery-checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.grocery-item-amount {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.grocery-item-name {
+  font-size: .92rem;
+  color: var(--text);
+}
+
+/* ── Small screen tweaks ────────────────────────────────── */
+
+@media (max-width: 400px) {
+  .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}

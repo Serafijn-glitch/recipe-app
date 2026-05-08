@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f1923">
+  <meta name="description" content="Weekplanner en boodschappenlijst voor thuiskoks">
+
+  <!-- PWA: installeerbaar op iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Recepten">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <title>Recepten</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+  <header>
+    <h1>Recepten</h1>
+    <nav>
+      <a href="#recepten" class="nav-link active">Recepten</a>
+      <a href="#deze-week" class="nav-link">Deze week</a>
+      <a href="#boodschappen" class="nav-link">Boodschappen</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section id="recepten" class="view active">
+
+      <!-- Overzicht: lijst met receptkaartjes -->
+      <div id="recipe-list-view">
+        <div class="view-header">
+          <h2>Recepten</h2>
+          <button id="btn-new-recipe" class="btn-primary">+ Nieuw recept</button>
+        </div>
+        <p id="recipe-list-empty" class="empty-state">Nog geen recepten. Voeg je eerste toe!</p>
+        <div id="recipe-cards"></div>
+      </div>
+
+      <!-- Detailweergave van één recept -->
+      <div id="recipe-detail-view" class="hidden">
+        <div class="view-header">
+          <button id="btn-back-from-detail" class="btn-text">&larr; Terug</button>
+          <button id="btn-edit-recipe" class="btn-secondary btn-sm">Bewerken</button>
+        </div>
+        <div id="detail-content"></div>
+        <button id="btn-delete-recipe-detail" class="btn-danger btn-full">Verwijderen</button>
+      </div>
+
+      <!-- Formulier: nieuw recept / recept bewerken -->
+      <div id="recipe-form-view" class="hidden">
+        <div class="view-header">
+          <button id="btn-back-to-list" class="btn-text">&larr; Terug</button>
+          <h2 id="form-title">Nieuw recept</h2>
+        </div>
+        <form id="recipe-form" novalidate>
+
+          <div class="form-group">
+            <label for="recipe-name">Naam recept</label>
+            <input type="text" id="recipe-name" placeholder="bijv. Spaghetti bolognese" required>
+          </div>
+
+          <div class="form-group">
+            <label for="recipe-description">Omschrijving</label>
+            <textarea id="recipe-description" rows="2" placeholder="Korte omschrijving"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="recipe-prep">Bereidingstijd (min)</label>
+              <input type="number" id="recipe-prep" min="0" placeholder="15">
+            </div>
+            <div class="form-group">
+              <label for="recipe-cook">Kooktijd (min)</label>
+              <input type="number" id="recipe-cook" min="0" placeholder="30">
+            </div>
+            <div class="form-group">
+              <label for="recipe-servings">Porties</label>
+              <input type="number" id="recipe-servings" min="1" placeholder="4">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="recipe-instructions">Bereiding</label>
+            <textarea id="recipe-instructions" rows="5" placeholder="Stap 1..."></textarea>
+          </div>
+
+          <div class="form-toggles">
+            <label class="toggle-label">
+              <input type="checkbox" id="recipe-is-weekend">
+              <span class="toggle-text">
+                <strong>Weekendrecept</strong>
+                <small>Alleen voor vr/za/zo, maximaal twee keer per week</small>
+              </span>
+            </label>
+            <label class="toggle-label">
+              <input type="checkbox" id="recipe-has-leftovers">
+              <span class="toggle-text">
+                <strong>Genoeg voor restjes</strong>
+                <small>Telt als één kookdag maar goed voor twee dagen</small>
+              </span>
+            </label>
+          </div>
+
+          <div class="ingredients-section">
+            <h3>Ingrediënten</h3>
+            <div id="ingredients-list"></div>
+            <button type="button" id="btn-add-ingredient" class="btn-secondary">+ Ingrediënt toevoegen</button>
+          </div>
+
+          <button type="submit" class="btn-primary btn-full">Recept opslaan</button>
+
+        </form>
+      </div>
+
+    </section>
+
+    <section id="deze-week" class="view">
+      <div class="view-header">
+        <h2>Deze week</h2>
+        <span id="week-label" class="week-label"></span>
+      </div>
+      <div id="week-plan-container"></div>
+      <button id="btn-generate-week" class="btn-primary btn-full">Weekplan maken</button>
+    </section>
+
+    <section id="boodschappen" class="view">
+      <div class="view-header">
+        <h2>Boodschappen</h2>
+        <span id="grocery-week-label" class="week-label"></span>
+      </div>
+      <div id="grocery-list-container"></div>
+      <button id="btn-generate-grocery" class="btn-primary btn-full">Lijst maken</button>
+    </section>
+  </main>
+
+  <script src="js/db.js"></script>
+  <script src="js/recipes.js"></script>
+  <script src="js/scheduler.js"></script>
+  <script src="js/grocery.js"></script>
+  <script>
+    // Basic nav: show the section matching the hash, hide the others
+    function showView(hash) {
+      const id = hash.replace('#', '') || 'recepten';
+      document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+
+      const target = document.getElementById(id);
+      if (target) target.classList.add('active');
+
+      const link = document.querySelector(`.nav-link[href="${hash || '#recepten'}"]`);
+      if (link) link.classList.add('active');
+    }
+
+    window.addEventListener('hashchange', () => showView(location.hash));
+    showView(location.hash);
+
+    // Registreer de service worker voor offline gebruik
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(reg => console.log('[SW] Geregistreerd:', reg.scope))
+        .catch(err => console.error('[SW] Registratie mislukt:', err));
+    }
+  </script>
+
+</body>
+</html>
