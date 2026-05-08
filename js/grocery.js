@@ -98,6 +98,9 @@ async function renderGroceryList() {
   if (items.length === 0) {
     const slots = await getWeekPlan(weekKey);
 
+    document.getElementById('btn-add-grocery-item').classList.add('hidden');
+    document.getElementById('add-grocery-form').classList.add('hidden');
+
     if (slots.length === 0) {
       container.innerHTML =
         '<p class="empty-state">Maak eerst een weekplan aan via "Deze week".</p>';
@@ -114,6 +117,8 @@ async function renderGroceryList() {
 
   generateBtn.textContent = 'Opnieuw genereren';
   generateBtn.disabled    = false;
+
+  document.getElementById('btn-add-grocery-item').classList.remove('hidden');
 
   container.innerHTML = '';
 
@@ -195,6 +200,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     generateBtn.disabled = false;
+    await renderGroceryList();
+  });
+
+  // Toggle the add-item form
+  const addItemBtn    = document.getElementById('btn-add-grocery-item');
+  const addItemForm   = document.getElementById('add-grocery-form');
+  const cancelItemBtn = document.getElementById('btn-cancel-grocery-item');
+  const itemForm      = document.getElementById('grocery-item-form');
+
+  addItemBtn.addEventListener('click', () => {
+    addItemForm.classList.toggle('hidden');
+    if (!addItemForm.classList.contains('hidden')) {
+      document.getElementById('new-item-name').focus();
+    }
+  });
+
+  cancelItemBtn.addEventListener('click', () => {
+    addItemForm.classList.add('hidden');
+    itemForm.reset();
+  });
+
+  itemForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('new-item-name').value.trim();
+    if (!name) return;
+
+    const amount   = parseFloat(document.getElementById('new-item-amount').value) || 0;
+    const unit     = document.getElementById('new-item-unit').value.trim();
+    const category = document.getElementById('new-item-category').value;
+
+    const item = {
+      id:       generateId(),
+      week_key: weekKey,
+      name,
+      amount,
+      unit,
+      category,
+      checked:  false,
+    };
+
+    await addGroceryItem(item);
+    console.log(`Los item toegevoegd: ${name}`);
+
+    itemForm.reset();
+    addItemForm.classList.add('hidden');
     await renderGroceryList();
   });
 

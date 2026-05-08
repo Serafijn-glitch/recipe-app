@@ -134,6 +134,41 @@
         <span id="grocery-week-label" class="week-label"></span>
       </div>
       <div id="grocery-list-container"></div>
+      <button id="btn-add-grocery-item" class="btn-secondary btn-full hidden">+ Los item toevoegen</button>
+      <div id="add-grocery-form" class="hidden">
+        <form id="grocery-item-form" novalidate>
+          <div class="form-group">
+            <label for="new-item-name">Item</label>
+            <input type="text" id="new-item-name" placeholder="bijv. Koffie" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="new-item-amount">Hoeveelheid</label>
+              <input type="number" id="new-item-amount" min="0" placeholder="500">
+            </div>
+            <div class="form-group">
+              <label for="new-item-unit">Eenheid</label>
+              <input type="text" id="new-item-unit" placeholder="g">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="new-item-category">Categorie</label>
+            <select id="new-item-category">
+              <option value="produce">Groente &amp; fruit</option>
+              <option value="meat">Vlees</option>
+              <option value="dairy">Zuivel</option>
+              <option value="bakery">Bakkerij</option>
+              <option value="pantry">Droogwaren</option>
+              <option value="frozen">Diepvries</option>
+              <option value="other" selected>Overig</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <button type="button" id="btn-cancel-grocery-item" class="btn-secondary">Annuleren</button>
+            <button type="submit" class="btn-primary">Toevoegen</button>
+          </div>
+        </form>
+      </div>
       <button id="btn-generate-grocery" class="btn-primary btn-full">Lijst maken</button>
     </section>
   </main>
