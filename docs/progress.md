@@ -44,8 +44,19 @@
 - service-worker.js: cache-first strategie, pre-cachet hele app shell bij install, ruimt oude caches op bij activate
 - index.html: service worker registratie, apple-mobile-web-app meta-tags, apple-touch-icon
 
-## Alles klaar
-Alle geplande features zijn gebouwd. De app is volledig functioneel en installeerbaar als PWA.
+## 2026-05-08 (sessie 6)
+- Project naar GitHub gepusht: https://github.com/Serafijn-glitch/recipe-app
+- GitHub Pages ingesteld: https://serafijn-glitch.github.io/recipe-app
+- App succesvol geïnstalleerd als PWA op Android-telefoon
+- Beveiligingsreview uitgevoerd:
+  - Content Security Policy (default-src 'self') toegevoegd
+  - Inline script verplaatst naar js/app.js
+  - escapeHtml() uitgebreid met enkelvoudig aanhalingsteken (&#039;)
+  - Service worker cache bijgewerkt met js/app.js
+
+## Project afgerond
+De app is live, installeerbaar en volledig functioneel.
+Live URL: https://serafijn-glitch.github.io/recipe-app
 
 ## Mogelijke volgende stappen (optioneel)
 - Recepten importeren/exporteren (JSON backup)
